@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { useState } from "react";
+import Home from "./components/Home";
+import AllPlayers from "./components/AllPlayers";
+import NewPlayerForm from "./components/NewPlayerForm";
+import { Routes, Route, Link } from "react-router-dom";
+import SinglePlayer from "./components/SinglePlayer";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <header className="heading1">
+        <Link to="/" className="puppyBowl">
+          Puppy Bowl 2023
+        </Link>
+      </header>
 
-export default App
+      <nav className="navBar">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/allPlayers">Our Puppy Contenders</Link>
+        </li>
+        <li>
+          <Link to="/NewPlayerForm">Add a new player</Link>
+        </li>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/allPlayers"
+          element={<AllPlayers setSelectedPlayer={setSelectedPlayer} />}
+        />
+        <Route
+          path="/player/:id"
+          element={
+            <SinglePlayer
+              setSelectedPlayer={setSelectedPlayer}
+              player={selectedPlayer}
+            />
+          }
+        />
+        <Route path="/NewPlayerForm" element={<NewPlayerForm />} />
+      </Routes>
+    </>
+  );
+}
